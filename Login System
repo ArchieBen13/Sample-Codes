@@ -1,0 +1,76 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class LoginSystem {
+
+    private Map<String, String> userDatabase;  // In a real application, this would be stored securely, e.g., in a database
+    private String loggedInUser;
+
+    public LoginSystem() {
+        userDatabase = new HashMap<>();
+        loggedInUser = null;
+    }
+
+    // Function to register a new user
+    public void registerUser(String username, String password) {
+        userDatabase.put(username, password);
+        System.out.println("User registered successfully.");
+    }
+
+    // Function to check if a user is registered
+    public boolean isUserRegistered(String username) {
+        return userDatabase.containsKey(username);
+    }
+
+    // Function to perform user login
+    public void loginUser(String username, String password) {
+        if (userDatabase.containsKey(username) && userDatabase.get(username).equals(password)) {
+            loggedInUser = username;
+            System.out.println("Login successful. Welcome, " + loggedInUser + "!");
+        } else {
+            System.out.println("Invalid username or password. Login failed.");
+        }
+    }
+
+    // Function to check if a user is currently logged in
+    public boolean isLoggedIn() {
+        return loggedInUser != null;
+    }
+
+    // Function to get the username of the currently logged-in user
+    public String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    // Function to log out the currently logged-in user
+    public void logoutUser() {
+        loggedInUser = null;
+        System.out.println("Logout successful.");
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LoginSystem loginSystem = new LoginSystem();
+
+        // Example: Registering a new user
+        loginSystem.registerUser("john_doe", "password123");
+
+        // Example: Performing a login
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        loginSystem.loginUser(username, password);
+
+        // Example: Checking if a user is logged in
+        if (loginSystem.isLoggedIn()) {
+            System.out.println("User " + loginSystem.getLoggedInUser() + " is currently logged in.");
+        }
+
+        // Example: Logging out
+        loginSystem.logoutUser();
+
+        scanner.close();
+    }
+}
